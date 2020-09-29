@@ -1,0 +1,12 @@
+<div class="ion-margin ion-text-center" [hidden]="state !== 'loading'">
+  <ion-spinner></ion-spinner>
+</div>
+
+<div class="ion-margin ion-text-center" [hidden]="state !== 'error'">
+  <p>Error loading</p>
+  <ion-button (click)="emitRetryPressed()">Retry</ion-button>
+</div>
+
+<div [hidden]="state !== 'loaded'">
+  <ng-content></ng-content>
+</div>

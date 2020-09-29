@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons><ion-title>User Detail</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  
+  <app-loading-feedback [state]="state">
+    <form [formGroup]="form" (submit)="submit()">
+      <ion-item>
+      <ion-label>{{ user.email }}</ion-label>
+    </ion-item>
+      <ion-item>
+        <ion-input type="text" formControlName="email"></ion-input> 
+      </ion-item>
+
+
+
+      <ion-button type="submit" [disabled]="form.invalid">Actualizar</ion-button>
+    </form>
+    </app-loading-feedback>
+</ion-content>
