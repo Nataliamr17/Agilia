@@ -26,8 +26,7 @@ export class UserDetailPage implements OnInit {
       this.form.patchValue(user);
     })
   );
-  users: UserPage;
-  public user: User;
+  user: User;
   public state = 'loaded';
   isNew = false;
 
@@ -46,11 +45,43 @@ export class UserDetailPage implements OnInit {
 
   ) { }
 
-  ngOnInit(): void {
-    const { id } = this.route.snapshot.params;
-    this.user.email = this.usersService.getUserDetail(+id);
+  ngOnInit() {
+    // const { id } = this.route.snapshot.params;
+    // this.user = this.usersService.getUserDetail(+id);
   }
-  public submit(): void {
-    this.user.email = this.user.email + this.form.controls.email.value;
+  // public submit(): void {
+  //   this.user.email = this.user.email + this.form.controls.email.value;
+  // }
+  submitForm() {
+    this.state = 'loading';
+
+    const oldUser = { ...this.user };
+    this.user = { ...this.user, ...this.form.value };
+
+    if (this.isNew) {
+      this.usersService.addUser(this.user).subscribe(
+        (id) => {
+          this.state = 'loaded';
+          this.router.navigate([`/users/${id}`]);
+        },
+        (error) => {
+          console.log(error);
+          this.state = 'error';
+          this.user = { ...oldUser };
+        }
+      );
+    } else {
+      this.usersService.updateUser(this.user).subscribe(
+        () => {
+          this.state = 'loaded';
+        },
+        (error) => {
+          console.log(error);
+          this.state = 'error';
+          this.user = { ...oldUser };
+        }
+      );
+    }
   }
+
 }

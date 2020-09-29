@@ -19,14 +19,18 @@ export class UsersService {
     return this.httpClient.get<UserPage>(`${environment.apiUrl}/api/users?page=2`);
   }
 
-  getUserDetail(id: number): Observable<UserPage> {
-    return this.httpClient.get<UserPage>(`${environment.apiUrl}/api/users/${id}`);
+  getUserDetail(id: number): Observable<User> {
+    return this.httpClient.get<User>(`${environment.apiUrl}/api/users/${id}`);
+  }
+
+  updateUser(user: User): Observable<User> {
+    return this.httpClient.patch<User>(`${environment.apiUrl}/api/users/${user.id}`, user);
   }
 
   addUser(user: User): Observable<number> {
     const id = Math.floor(100000 + Math.random() * 900000);
     return this.httpClient
-      .post<User>(`${environment.apiUrl}/books`, {
+      .post<User>(`${environment.apiUrl}/api/users?page=2`, {
         ...user,
         id
       })
